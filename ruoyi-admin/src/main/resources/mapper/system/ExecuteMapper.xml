@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ExecuteMapper">
+    
+    <resultMap type="Execute" id="ExecuteResult">
+        <result property="executeId"    column="execute_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="executeName"    column="execute_name"    />
+        <result property="executeCode"    column="execute_code"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="executeType"    column="execute_type"    />
+        <result property="relatedProductId"    column="related_product_id"    />
+        <result property="relatedPlanId"    column="related_plan_id"    />
+        <result property="productPrincipalId"    column="product_principal_id"    />
+        <result property="testPrincipalId"    column="test_principal_id"    />
+        <result property="iterationPrincipalId"    column="iteration_principal_id"    />
+        <result property="teamMembersIds"    column="team_members_ids"    />
+        <result property="description"    column="description"    />
+    </resultMap>
+
+    <sql id="selectExecuteVo">
+        select execute_id, item_id, execute_name, execute_code, start_time, end_time, execute_type, related_product_id, related_plan_id, product_principal_id, test_principal_id, iteration_principal_id, team_members_ids, description from execute
+    </sql>
+
+    <select id="selectExecuteList" parameterType="Execute" resultMap="ExecuteResult">
+        <include refid="selectExecuteVo"/>
+        <where>  
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="executeName != null  and executeName != ''"> and execute_name like concat('%', #{executeName}, '%')</if>
+            <if test="executeCode != null  and executeCode != ''"> and execute_code = #{executeCode}</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="executeType != null "> and execute_type = #{executeType}</if>
+            <if test="relatedProductId != null "> and related_product_id = #{relatedProductId}</if>
+            <if test="relatedPlanId != null "> and related_plan_id = #{relatedPlanId}</if>
+            <if test="productPrincipalId != null "> and product_principal_id = #{productPrincipalId}</if>
+            <if test="testPrincipalId != null "> and test_principal_id = #{testPrincipalId}</if>
+            <if test="iterationPrincipalId != null "> and iteration_principal_id = #{iterationPrincipalId}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+        </where>
+    </select>
+    
+    <select id="selectExecuteByExecuteId" parameterType="Long" resultMap="ExecuteResult">
+        <include refid="selectExecuteVo"/>
+        where execute_id = #{executeId}
+    </select>
+        
+    <insert id="insertExecute" parameterType="Execute" useGeneratedKeys="true" keyProperty="executeId">
+        insert into execute
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">item_id,</if>
+            <if test="executeName != null">execute_name,</if>
+            <if test="executeCode != null">execute_code,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="executeType != null">execute_type,</if>
+            <if test="relatedProductId != null">related_product_id,</if>
+            <if test="relatedPlanId != null">related_plan_id,</if>
+            <if test="productPrincipalId != null">product_principal_id,</if>
+            <if test="testPrincipalId != null">test_principal_id,</if>
+            <if test="iterationPrincipalId != null">iteration_principal_id,</if>
+            <if test="teamMembersIds != null">team_members_ids,</if>
+            <if test="description != null">description,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemId != null">#{itemId},</if>
+            <if test="executeName != null">#{executeName},</if>
+            <if test="executeCode != null">#{executeCode},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="executeType != null">#{executeType},</if>
+            <if test="relatedProductId != null">#{relatedProductId},</if>
+            <if test="relatedPlanId != null">#{relatedPlanId},</if>
+            <if test="productPrincipalId != null">#{productPrincipalId},</if>
+            <if test="testPrincipalId != null">#{testPrincipalId},</if>
+            <if test="iterationPrincipalId != null">#{iterationPrincipalId},</if>
+            <if test="teamMembersIds != null">#{teamMembersIds},</if>
+            <if test="description != null">#{description},</if>
+         </trim>
+    </insert>
+
+    <update id="updateExecute" parameterType="Execute">
+        update execute
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="executeName != null">execute_name = #{executeName},</if>
+            <if test="executeCode != null">execute_code = #{executeCode},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="executeType != null">execute_type = #{executeType},</if>
+            <if test="relatedProductId != null">related_product_id = #{relatedProductId},</if>
+            <if test="relatedPlanId != null">related_plan_id = #{relatedPlanId},</if>
+            <if test="productPrincipalId != null">product_principal_id = #{productPrincipalId},</if>
+            <if test="testPrincipalId != null">test_principal_id = #{testPrincipalId},</if>
+            <if test="iterationPrincipalId != null">iteration_principal_id = #{iterationPrincipalId},</if>
+            <if test="teamMembersIds != null">team_members_ids = #{teamMembersIds},</if>
+            <if test="description != null">description = #{description},</if>
+        </trim>
+        where execute_id = #{executeId}
+    </update>
+
+    <delete id="deleteExecuteByExecuteId" parameterType="Long">
+        delete from execute where execute_id = #{executeId}
+    </delete>
+
+    <delete id="deleteExecuteByExecuteIds" parameterType="String">
+        delete from execute where execute_id in 
+        <foreach item="executeId" collection="array" open="(" separator="," close=")">
+            #{executeId}
+        </foreach>
+    </delete>
+</mapper>

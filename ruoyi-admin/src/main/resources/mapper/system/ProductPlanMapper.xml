@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ProductPlanMapper">
+    
+    <resultMap type="ProductPlan" id="ProductPlanResult">
+        <result property="panId"    column="pan_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="planName"    column="plan_name"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="description"    column="description"    />
+        <result property="planState"    column="plan_state"    />
+    </resultMap>
+
+    <sql id="selectProductPlanVo">
+        select pan_id, product_id, plan_name, start_time, end_time, description, plan_state from product_plan
+    </sql>
+
+    <select id="selectProductPlanList" parameterType="ProductPlan" resultMap="ProductPlanResult">
+        <include refid="selectProductPlanVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="planName != null  and planName != ''"> and plan_name like concat('%', #{planName}, '%')</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="planState != null "> and plan_state = #{planState}</if>
+        </where>
+    </select>
+    
+    <select id="selectProductPlanByPanId" parameterType="Long" resultMap="ProductPlanResult">
+        <include refid="selectProductPlanVo"/>
+        where pan_id = #{panId}
+    </select>
+        
+    <insert id="insertProductPlan" parameterType="ProductPlan" useGeneratedKeys="true" keyProperty="panId">
+        insert into product_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="planName != null">plan_name,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="description != null">description,</if>
+            <if test="planState != null">plan_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="planName != null">#{planName},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="description != null">#{description},</if>
+            <if test="planState != null">#{planState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductPlan" parameterType="ProductPlan">
+        update product_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="planName != null">plan_name = #{planName},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="planState != null">plan_state = #{planState},</if>
+        </trim>
+        where pan_id = #{panId}
+    </update>
+
+    <delete id="deleteProductPlanByPanId" parameterType="Long">
+        delete from product_plan where pan_id = #{panId}
+    </delete>
+
+    <delete id="deleteProductPlanByPanIds" parameterType="String">
+        delete from product_plan where pan_id in 
+        <foreach item="panId" collection="array" open="(" separator="," close=")">
+            #{panId}
+        </foreach>
+    </delete>
+</mapper>

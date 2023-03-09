@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.GroupMapper">
+    
+    <resultMap type="Group" id="GroupResult">
+        <result property="groupId"    column="group_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="memberPosition"    column="member_position"    />
+        <result property="joinDate"    column="join_date"    />
+    </resultMap>
+
+    <sql id="selectGroupVo">
+        select group_id, member_id, member_position, join_date from group
+    </sql>
+
+    <select id="selectGroupList" parameterType="Group" resultMap="GroupResult">
+        <include refid="selectGroupVo"/>
+        <where>  
+            <if test="memberId != null "> and member_id = #{memberId}</if>
+            <if test="memberPosition != null "> and member_position = #{memberPosition}</if>
+            <if test="joinDate != null  and joinDate != ''"> and join_date = #{joinDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectGroupByGroupId" parameterType="Long" resultMap="GroupResult">
+        <include refid="selectGroupVo"/>
+        where group_id = #{groupId}
+    </select>
+        
+    <insert id="insertGroup" parameterType="Group" useGeneratedKeys="true" keyProperty="groupId">
+        insert into group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">member_id,</if>
+            <if test="memberPosition != null">member_position,</if>
+            <if test="joinDate != null">join_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="memberId != null">#{memberId},</if>
+            <if test="memberPosition != null">#{memberPosition},</if>
+            <if test="joinDate != null">#{joinDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGroup" parameterType="Group">
+        update group
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null">member_id = #{memberId},</if>
+            <if test="memberPosition != null">member_position = #{memberPosition},</if>
+            <if test="joinDate != null">join_date = #{joinDate},</if>
+        </trim>
+        where group_id = #{groupId}
+    </update>
+
+    <delete id="deleteGroupByGroupId" parameterType="Long">
+        delete from group where group_id = #{groupId}
+    </delete>
+
+    <delete id="deleteGroupByGroupIds" parameterType="String">
+        delete from group where group_id in 
+        <foreach item="groupId" collection="array" open="(" separator="," close=")">
+            #{groupId}
+        </foreach>
+    </delete>
+</mapper>

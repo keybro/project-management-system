@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ProductRequirementMapper">
+    
+    <resultMap type="ProductRequirement" id="ProductRequirementResult">
+        <result property="productRequirementId"    column="product_requirement_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="productPlanId"    column="product_plan_id"    />
+        <result property="sourceType"    column="source_type"    />
+        <result property="requirementName"    column="requirement_name"    />
+        <result property="requirementType"    column="requirement_type"    />
+        <result property="priority"    column="priority"    />
+        <result property="description"    column="description"    />
+        <result property="acceptanceStandard"    column="acceptance_standard"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserName"    column="create_user_name"    />
+        <result property="designateUserId"    column="designate_user_id"    />
+        <result property="designateUserName"    column="designate_user_name"    />
+        <result property="designateRemark"    column="designate_remark"    />
+        <result property="stage"    column="stage"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectProductRequirementVo">
+        select product_requirement_id, product_id, product_plan_id, source_type, requirement_name, requirement_type, priority, description, acceptance_standard, create_user_id, create_user_name, designate_user_id, designate_user_name, designate_remark, stage, status from product_requirement
+    </sql>
+
+    <select id="selectProductRequirementList" parameterType="ProductRequirement" resultMap="ProductRequirementResult">
+        <include refid="selectProductRequirementVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="productPlanId != null "> and product_plan_id = #{productPlanId}</if>
+            <if test="sourceType != null "> and source_type = #{sourceType}</if>
+            <if test="requirementName != null  and requirementName != ''"> and requirement_name like concat('%', #{requirementName}, '%')</if>
+            <if test="requirementType != null "> and requirement_type = #{requirementType}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="acceptanceStandard != null  and acceptanceStandard != ''"> and acceptance_standard = #{acceptanceStandard}</if>
+            <if test="createUserName != null  and createUserName != ''"> and create_user_name like concat('%', #{createUserName}, '%')</if>
+            <if test="designateUserId != null "> and designate_user_id = #{designateUserId}</if>
+            <if test="designateUserName != null  and designateUserName != ''"> and designate_user_name like concat('%', #{designateUserName}, '%')</if>
+            <if test="stage != null "> and stage = #{stage}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectProductRequirementByProductRequirementId" parameterType="Long" resultMap="ProductRequirementResult">
+        <include refid="selectProductRequirementVo"/>
+        where product_requirement_id = #{productRequirementId}
+    </select>
+        
+    <insert id="insertProductRequirement" parameterType="ProductRequirement" useGeneratedKeys="true" keyProperty="productRequirementId">
+        insert into product_requirement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="productPlanId != null">product_plan_id,</if>
+            <if test="sourceType != null">source_type,</if>
+            <if test="requirementName != null">requirement_name,</if>
+            <if test="requirementType != null">requirement_type,</if>
+            <if test="priority != null">priority,</if>
+            <if test="description != null">description,</if>
+            <if test="acceptanceStandard != null">acceptance_standard,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserName != null">create_user_name,</if>
+            <if test="designateUserId != null">designate_user_id,</if>
+            <if test="designateUserName != null">designate_user_name,</if>
+            <if test="designateRemark != null">designate_remark,</if>
+            <if test="stage != null">stage,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="productPlanId != null">#{productPlanId},</if>
+            <if test="sourceType != null">#{sourceType},</if>
+            <if test="requirementName != null">#{requirementName},</if>
+            <if test="requirementType != null">#{requirementType},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="description != null">#{description},</if>
+            <if test="acceptanceStandard != null">#{acceptanceStandard},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserName != null">#{createUserName},</if>
+            <if test="designateUserId != null">#{designateUserId},</if>
+            <if test="designateUserName != null">#{designateUserName},</if>
+            <if test="designateRemark != null">#{designateRemark},</if>
+            <if test="stage != null">#{stage},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProductRequirement" parameterType="ProductRequirement">
+        update product_requirement
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="productPlanId != null">product_plan_id = #{productPlanId},</if>
+            <if test="sourceType != null">source_type = #{sourceType},</if>
+            <if test="requirementName != null">requirement_name = #{requirementName},</if>
+            <if test="requirementType != null">requirement_type = #{requirementType},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="acceptanceStandard != null">acceptance_standard = #{acceptanceStandard},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserName != null">create_user_name = #{createUserName},</if>
+            <if test="designateUserId != null">designate_user_id = #{designateUserId},</if>
+            <if test="designateUserName != null">designate_user_name = #{designateUserName},</if>
+            <if test="designateRemark != null">designate_remark = #{designateRemark},</if>
+            <if test="stage != null">stage = #{stage},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where product_requirement_id = #{productRequirementId}
+    </update>
+
+    <delete id="deleteProductRequirementByProductRequirementId" parameterType="Long">
+        delete from product_requirement where product_requirement_id = #{productRequirementId}
+    </delete>
+
+    <delete id="deleteProductRequirementByProductRequirementIds" parameterType="String">
+        delete from product_requirement where product_requirement_id in 
+        <foreach item="productRequirementId" collection="array" open="(" separator="," close=")">
+            #{productRequirementId}
+        </foreach>
+    </delete>
+</mapper>
