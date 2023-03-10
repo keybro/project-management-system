@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestExpMapper">
+    
+    <resultMap type="TestExp" id="TestExpResult">
+        <result property="testId"    column="test_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="relateRequirementId"    column="relate_requirement_id"    />
+        <result property="testTitle"    column="test_title"    />
+        <result property="createrId"    column="creater_id"    />
+        <result property="createrName"    column="creater_name"    />
+        <result property="result"    column="result"    />
+        <result property="priority"    column="priority"    />
+    </resultMap>
+
+    <sql id="selectTestExpVo">
+        select test_id, product_id, relate_requirement_id, test_title, creater_id, creater_name, result, priority from test_exp
+    </sql>
+
+    <select id="selectTestExpList" parameterType="TestExp" resultMap="TestExpResult">
+        <include refid="selectTestExpVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="relateRequirementId != null "> and relate_requirement_id = #{relateRequirementId}</if>
+            <if test="testTitle != null  and testTitle != ''"> and test_title = #{testTitle}</if>
+            <if test="createrId != null "> and creater_id = #{createrId}</if>
+            <if test="createrName != null  and createrName != ''"> and creater_name like concat('%', #{createrName}, '%')</if>
+            <if test="result != null "> and result = #{result}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestExpByTestId" parameterType="Long" resultMap="TestExpResult">
+        <include refid="selectTestExpVo"/>
+        where test_id = #{testId}
+    </select>
+        
+    <insert id="insertTestExp" parameterType="TestExp" useGeneratedKeys="true" keyProperty="testId">
+        insert into test_exp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="relateRequirementId != null">relate_requirement_id,</if>
+            <if test="testTitle != null">test_title,</if>
+            <if test="createrId != null">creater_id,</if>
+            <if test="createrName != null">creater_name,</if>
+            <if test="result != null">result,</if>
+            <if test="priority != null">priority,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="relateRequirementId != null">#{relateRequirementId},</if>
+            <if test="testTitle != null">#{testTitle},</if>
+            <if test="createrId != null">#{createrId},</if>
+            <if test="createrName != null">#{createrName},</if>
+            <if test="result != null">#{result},</if>
+            <if test="priority != null">#{priority},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestExp" parameterType="TestExp">
+        update test_exp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="relateRequirementId != null">relate_requirement_id = #{relateRequirementId},</if>
+            <if test="testTitle != null">test_title = #{testTitle},</if>
+            <if test="createrId != null">creater_id = #{createrId},</if>
+            <if test="createrName != null">creater_name = #{createrName},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="priority != null">priority = #{priority},</if>
+        </trim>
+        where test_id = #{testId}
+    </update>
+
+    <delete id="deleteTestExpByTestId" parameterType="Long">
+        delete from test_exp where test_id = #{testId}
+    </delete>
+
+    <delete id="deleteTestExpByTestIds" parameterType="String">
+        delete from test_exp where test_id in 
+        <foreach item="testId" collection="array" open="(" separator="," close=")">
+            #{testId}
+        </foreach>
+    </delete>
+</mapper>

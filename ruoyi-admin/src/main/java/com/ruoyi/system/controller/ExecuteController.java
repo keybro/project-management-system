@@ -44,6 +44,9 @@ public class ExecuteController extends BaseController
     @Autowired
     private IProductPlanService productPlanService;
 
+    @Autowired
+    private IProductRequirementService requirementService;
+
 
 
 
@@ -62,6 +65,7 @@ public class ExecuteController extends BaseController
             temp.setTestPrincipalName(userService.selectUserById(temp.getTestPrincipalId()).getNickName());
             temp.setIterationPrincipalName(userService.selectUserById(temp.getIterationPrincipalId()).getNickName());
             temp.setItemName(itemService.selectItemByItemId(temp.getItemId()).getItemName());
+            temp.setProductRequirementName(requirementService.selectProductRequirementByProductRequirementId((long) temp.getRelateRequireId()).getRequirementName());
         }
         return getDataTable(list);
     }

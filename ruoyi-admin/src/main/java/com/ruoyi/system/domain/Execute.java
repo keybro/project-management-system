@@ -48,6 +48,8 @@ public class Execute extends BaseEntity
     /** 关联计划id */
     private Long relatedPlanId;
 
+    private int relateRequireId;
+
     /** 产品负责人id */
     @Excel(name = "产品负责人id")
     private Long productPrincipalId;
@@ -67,6 +69,16 @@ public class Execute extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
+    private String productRequirementName;
+
+    public String getProductRequirementName() {
+        return productRequirementName;
+    }
+
+    public void setProductRequirementName(String productRequirementName) {
+        this.productRequirementName = productRequirementName;
+    }
+
     private String itemName;
 
     private String relatedProductName;
@@ -78,6 +90,14 @@ public class Execute extends BaseEntity
     private String testPrincipalName;
 
     private String iterationPrincipalName;
+
+    public int getRelateRequireId() {
+        return relateRequireId;
+    }
+
+    public void setRelateRequireId(int relateRequireId) {
+        this.relateRequireId = relateRequireId;
+    }
 
     public String getItemName() {
         return itemName;

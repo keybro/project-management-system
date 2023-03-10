@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TaskMapper">
+    
+    <resultMap type="Task" id="TaskResult">
+        <result property="taskId"    column="task_id"    />
+        <result property="executeId"    column="execute_id"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="designateId"    column="designate_id"    />
+        <result property="designateName"    column="designate_name"    />
+        <result property="relateRequirement"    column="relate_requirement"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="description"    column="description"    />
+        <result property="priority"    column="priority"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="actualStartTime"    column="actual_start_time"    />
+        <result property="timeConsuming"    column="time_consuming"    />
+        <result property="taskState"    column="task_state"    />
+    </resultMap>
+
+    <sql id="selectTaskVo">
+        select task_id, execute_id, task_type, designate_id, designate_name, relate_requirement, task_name, description, priority, start_time, end_time, actual_start_time, time_consuming, task_state from task
+    </sql>
+
+    <select id="selectTaskList" parameterType="Task" resultMap="TaskResult">
+        <include refid="selectTaskVo"/>
+        <where>  
+            <if test="executeId != null "> and execute_id = #{executeId}</if>
+            <if test="taskType != null "> and task_type = #{taskType}</if>
+            <if test="designateId != null "> and designate_id = #{designateId}</if>
+            <if test="designateName != null  and designateName != ''"> and designate_name like concat('%', #{designateName}, '%')</if>
+            <if test="relateRequirement != null  and relateRequirement != ''"> and relate_requirement = #{relateRequirement}</if>
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+            <if test="startTime != null  and startTime != ''"> and start_time = #{startTime}</if>
+            <if test="endTime != null  and endTime != ''"> and end_time = #{endTime}</if>
+            <if test="actualStartTime != null  and actualStartTime != ''"> and actual_start_time = #{actualStartTime}</if>
+            <if test="timeConsuming != null "> and time_consuming = #{timeConsuming}</if>
+            <if test="taskState != null "> and task_state = #{taskState}</if>
+        </where>
+    </select>
+    
+    <select id="selectTaskByTaskId" parameterType="Long" resultMap="TaskResult">
+        <include refid="selectTaskVo"/>
+        where task_id = #{taskId}
+    </select>
+        
+    <insert id="insertTask" parameterType="Task" useGeneratedKeys="true" keyProperty="taskId">
+        insert into task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="executeId != null">execute_id,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="designateId != null">designate_id,</if>
+            <if test="designateName != null">designate_name,</if>
+            <if test="relateRequirement != null">relate_requirement,</if>
+            <if test="taskName != null">task_name,</if>
+            <if test="description != null">description,</if>
+            <if test="priority != null">priority,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="actualStartTime != null">actual_start_time,</if>
+            <if test="timeConsuming != null">time_consuming,</if>
+            <if test="taskState != null">task_state,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="executeId != null">#{executeId},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="designateId != null">#{designateId},</if>
+            <if test="designateName != null">#{designateName},</if>
+            <if test="relateRequirement != null">#{relateRequirement},</if>
+            <if test="taskName != null">#{taskName},</if>
+            <if test="description != null">#{description},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="actualStartTime != null">#{actualStartTime},</if>
+            <if test="timeConsuming != null">#{timeConsuming},</if>
+            <if test="taskState != null">#{taskState},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTask" parameterType="Task">
+        update task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="executeId != null">execute_id = #{executeId},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="designateId != null">designate_id = #{designateId},</if>
+            <if test="designateName != null">designate_name = #{designateName},</if>
+            <if test="relateRequirement != null">relate_requirement = #{relateRequirement},</if>
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="actualStartTime != null">actual_start_time = #{actualStartTime},</if>
+            <if test="timeConsuming != null">time_consuming = #{timeConsuming},</if>
+            <if test="taskState != null">task_state = #{taskState},</if>
+        </trim>
+        where task_id = #{taskId}
+    </update>
+
+    <delete id="deleteTaskByTaskId" parameterType="Long">
+        delete from task where task_id = #{taskId}
+    </delete>
+
+    <delete id="deleteTaskByTaskIds" parameterType="String">
+        delete from task where task_id in 
+        <foreach item="taskId" collection="array" open="(" separator="," close=")">
+            #{taskId}
+        </foreach>
+    </delete>
+</mapper>

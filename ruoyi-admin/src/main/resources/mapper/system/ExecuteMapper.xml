@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="executeType"    column="execute_type"    />
         <result property="relatedProductId"    column="related_product_id"    />
         <result property="relatedPlanId"    column="related_plan_id"    />
+        <result property="relateRequireId"    column="relate_require_id"    />
         <result property="productPrincipalId"    column="product_principal_id"    />
         <result property="testPrincipalId"    column="test_principal_id"    />
         <result property="iterationPrincipalId"    column="iteration_principal_id"    />
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectExecuteVo">
-        select execute_id, item_id, execute_name, execute_code, start_time, end_time, execute_type, related_product_id, related_plan_id, product_principal_id, test_principal_id, iteration_principal_id, team_members_ids, description from execute
+        select execute_id, item_id, execute_name, execute_code, start_time, end_time, execute_type, related_product_id, related_plan_id, product_principal_id, test_principal_id, iteration_principal_id, team_members_ids, description,relate_require_id from execute
     </sql>
 
     <select id="selectExecuteList" parameterType="Execute" resultMap="ExecuteResult">
@@ -36,6 +37,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="executeType != null "> and execute_type = #{executeType}</if>
             <if test="relatedProductId != null "> and related_product_id = #{relatedProductId}</if>
             <if test="relatedPlanId != null "> and related_plan_id = #{relatedPlanId}</if>
+<!--            <if test="relateRequireId != null "> and relate_require_id = #{relateRequireId}</if>-->
             <if test="productPrincipalId != null "> and product_principal_id = #{productPrincipalId}</if>
             <if test="testPrincipalId != null "> and test_principal_id = #{testPrincipalId}</if>
             <if test="iterationPrincipalId != null "> and iteration_principal_id = #{iterationPrincipalId}</if>
@@ -59,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="executeType != null">execute_type,</if>
             <if test="relatedProductId != null">related_product_id,</if>
             <if test="relatedPlanId != null">related_plan_id,</if>
+            <if test="relateRequireId != null">relate_require_id,</if>
             <if test="productPrincipalId != null">product_principal_id,</if>
             <if test="testPrincipalId != null">test_principal_id,</if>
             <if test="iterationPrincipalId != null">iteration_principal_id,</if>
@@ -74,6 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="executeType != null">#{executeType},</if>
             <if test="relatedProductId != null">#{relatedProductId},</if>
             <if test="relatedPlanId != null">#{relatedPlanId},</if>
+<!--            <if test="relateRequireId != null">#{relateRequireId},</if>-->
             <if test="productPrincipalId != null">#{productPrincipalId},</if>
             <if test="testPrincipalId != null">#{testPrincipalId},</if>
             <if test="iterationPrincipalId != null">#{iterationPrincipalId},</if>
@@ -93,6 +97,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="executeType != null">execute_type = #{executeType},</if>
             <if test="relatedProductId != null">related_product_id = #{relatedProductId},</if>
             <if test="relatedPlanId != null">related_plan_id = #{relatedPlanId},</if>
+<!--            <if test="relateRequireId != null">relate_require_id = #{relateRequireId},</if>-->
             <if test="productPrincipalId != null">product_principal_id = #{productPrincipalId},</if>
             <if test="testPrincipalId != null">test_principal_id = #{testPrincipalId},</if>
             <if test="iterationPrincipalId != null">iteration_principal_id = #{iterationPrincipalId},</if>

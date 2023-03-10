@@ -6,12 +6,12 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 团队列表对象 group
+ * 执行团队对象 g_exe
  * 
- * @author lrj
+ * @author ruoyi
  * @date 2023-03-09
  */
-public class Group extends BaseEntity
+public class GExe extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +29,10 @@ public class Group extends BaseEntity
     /** 加盟时间 */
     @Excel(name = "加盟时间")
     private String joinDate;
+
+    /** 所属执行id */
+    @Excel(name = "所属执行id")
+    private Long exeId;
 
     public void setGroupId(Long groupId) 
     {
@@ -66,6 +70,15 @@ public class Group extends BaseEntity
     {
         return joinDate;
     }
+    public void setExeId(Long exeId) 
+    {
+        this.exeId = exeId;
+    }
+
+    public Long getExeId() 
+    {
+        return exeId;
+    }
 
     @Override
     public String toString() {
@@ -74,6 +87,7 @@ public class Group extends BaseEntity
             .append("memberId", getMemberId())
             .append("memberPosition", getMemberPosition())
             .append("joinDate", getJoinDate())
+            .append("exeId", getExeId())
             .toString();
     }
 }
