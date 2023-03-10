@@ -6,12 +6,12 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * bug列表对象 bug
+ * 产品bug列表对象 bug
  * 
  * @author lrj
- * @date 2023-03-09
+ * @date 2023-03-10
  */
-public class Bug extends BaseEntity
+public class productBug extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -63,7 +63,6 @@ public class Bug extends BaseEntity
     private Long result;
 
     /** 创建者id */
-    @Excel(name = "创建者id")
     private Long createrId;
 
     /** bug状态 */

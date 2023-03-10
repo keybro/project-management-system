@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TestStepMapper">
+    
+    <resultMap type="TestStep" id="TestStepResult">
+        <result property="stepId"    column="step_id"    />
+        <result property="testId"    column="test_id"    />
+        <result property="stepName"    column="step_name"    />
+        <result property="hope"    column="hope"    />
+        <result property="result"    column="result"    />
+        <result property="physicalTruth"    column="physical_truth"    />
+    </resultMap>
+
+    <sql id="selectTestStepVo">
+        select step_id, test_id, step_name, hope, result, physical_truth from test_step
+    </sql>
+
+    <select id="selectTestStepList" parameterType="TestStep" resultMap="TestStepResult">
+        <include refid="selectTestStepVo"/>
+        <where>  
+            <if test="testId != null "> and test_id = #{testId}</if>
+            <if test="stepName != null  and stepName != ''"> and step_name like concat('%', #{stepName}, '%')</if>
+            <if test="hope != null  and hope != ''"> and hope = #{hope}</if>
+            <if test="result != null "> and result = #{result}</if>
+            <if test="physicalTruth != null  and physicalTruth != ''"> and physical_truth = #{physicalTruth}</if>
+        </where>
+    </select>
+    
+    <select id="selectTestStepByStepId" parameterType="Long" resultMap="TestStepResult">
+        <include refid="selectTestStepVo"/>
+        where step_id = #{stepId}
+    </select>
+        
+    <insert id="insertTestStep" parameterType="TestStep" useGeneratedKeys="true" keyProperty="stepId">
+        insert into test_step
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="testId != null">test_id,</if>
+            <if test="stepName != null">step_name,</if>
+            <if test="hope != null">hope,</if>
+            <if test="result != null">result,</if>
+            <if test="physicalTruth != null">physical_truth,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="testId != null">#{testId},</if>
+            <if test="stepName != null">#{stepName},</if>
+            <if test="hope != null">#{hope},</if>
+            <if test="result != null">#{result},</if>
+            <if test="physicalTruth != null">#{physicalTruth},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTestStep" parameterType="TestStep">
+        update test_step
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="testId != null">test_id = #{testId},</if>
+            <if test="stepName != null">step_name = #{stepName},</if>
+            <if test="hope != null">hope = #{hope},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="physicalTruth != null">physical_truth = #{physicalTruth},</if>
+        </trim>
+        where step_id = #{stepId}
+    </update>
+
+    <delete id="deleteTestStepByStepId" parameterType="Long">
+        delete from test_step where step_id = #{stepId}
+    </delete>
+
+    <delete id="deleteTestStepByStepIds" parameterType="String">
+        delete from test_step where step_id in 
+        <foreach item="stepId" collection="array" open="(" separator="," close=")">
+            #{stepId}
+        </foreach>
+    </delete>
+</mapper>

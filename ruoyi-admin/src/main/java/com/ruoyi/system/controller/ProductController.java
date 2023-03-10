@@ -3,7 +3,8 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ruoyi.system.service.ISysUserService;
+import com.ruoyi.system.domain.*;
+import com.ruoyi.system.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,6 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.Product;
-import com.ruoyi.system.service.IProductService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
@@ -39,6 +38,18 @@ public class ProductController extends BaseController
     @Autowired
     private ISysUserService userService;
 
+    @Autowired
+    private IBugService bugService;
+
+    @Autowired
+    private IProductPlanService productPlanService;
+
+    @Autowired
+    private IExecuteService executeService;
+
+    @Autowired
+    private ITaskService taskService;
+
     /**
      * 查询产品列表列表
      */
@@ -52,6 +63,35 @@ public class ProductController extends BaseController
                 list) {
             temp.setProductPrincipalName(userService.selectUserById(temp.getProductPrincipalId()).getNickName());
             temp.setTestPrincipalName(userService.selectUserById(temp.getTestPrincipalId()).getNickName());
+            Bug bug = new Bug();
+            bug.setProductId(temp.getProductId());
+            temp.setProductBugNumber(bugService.selectBugList(bug).size());
+            ProductPlan productPlan = new ProductPlan();
+            productPlan.setProductId(temp.getProductId());
+            temp.setProductPlanNumber(productPlanService.selectProductPlanList(productPlan).size());
+            //完成率=完成的任务/总任务数
+            int AllTask = 0;
+            int AllFinishTask = 0;
+            Execute execute = new Execute();
+            execute.setRelatedProductId(temp.getProductId());
+            List<Execute> executes = executeService.selectExecuteList(execute);
+            for (Execute exTemp :
+                    executes) {
+                Task task = new Task();
+                task.setExecuteId(exTemp.getExecuteId());
+                List<Task> tasks = taskService.selectTaskList(task);
+                for (Task taskTemp :
+                        tasks) {
+                    if (taskTemp.getTaskState() == 2) {
+                        AllFinishTask +=1;
+                    }else {
+                        AllTask+=1;
+                    }
+                    }
+            }
+            System.out.println(AllTask);
+            System.out.println(AllFinishTask);
+            temp.setProductRequireFinishRate(AllFinishTask/AllTask);
         }
         return getDataTable(list);
     }

@@ -3,6 +3,7 @@ package com.ruoyi.system.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.system.domain.Bug;
 import com.ruoyi.system.service.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +19,22 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.system.domain.Bug;
+import com.ruoyi.system.domain.productBug;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
 
 /**
- * bug列表Controller
+ * 产品bug列表Controller
  * 
  * @author lrj
- * @date 2023-03-09
+ * @date 2023-03-10
  */
 @RestController
-@RequestMapping("/system/bug")
-public class BugController extends BaseController
+@RequestMapping("/system/productBug")
+public class productBugController extends BaseController
 {
     @Autowired
-    private IBugService bugService;
+    private IproductBugService productBugService;
 
     @Autowired
     private IProductService productService;
@@ -54,15 +55,15 @@ public class BugController extends BaseController
     private ITaskService taskService;
 
     /**
-     * 查询bug列表列表
+     * 查询产品bug列表列表
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:list')")
+    @PreAuthorize("@ss.hasPermi('system:productBug:list')")
     @GetMapping("/list")
-    public TableDataInfo list(Bug bug)
+    public TableDataInfo list(productBug productBug)
     {
         startPage();
-        List<Bug> list = bugService.selectBugList(bug);
-        for (Bug temp :
+        List<productBug> list = productBugService.selectproductBugList(productBug);
+        for (productBug temp :
                 list) {
             temp.setProductName(productService.selectProductByProductId(temp.getProductId()).getProductName());
             temp.setItemName(itemService.selectItemByItemId(temp.getItemId()).getItemName());
@@ -75,58 +76,58 @@ public class BugController extends BaseController
     }
 
     /**
-     * 导出bug列表列表
+     * 导出产品bug列表列表
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:export')")
-    @Log(title = "bug列表", businessType = BusinessType.EXPORT)
+    @PreAuthorize("@ss.hasPermi('system:productBug:export')")
+    @Log(title = "产品bug列表", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, Bug bug)
+    public void export(HttpServletResponse response, productBug productBug)
     {
-        List<Bug> list = bugService.selectBugList(bug);
-        ExcelUtil<Bug> util = new ExcelUtil<Bug>(Bug.class);
-        util.exportExcel(response, list, "bug列表数据");
+        List<productBug> list = productBugService.selectproductBugList(productBug);
+        ExcelUtil<productBug> util = new ExcelUtil<productBug>(productBug.class);
+        util.exportExcel(response, list, "产品bug列表数据");
     }
 
     /**
-     * 获取bug列表详细信息
+     * 获取产品bug列表详细信息
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:query')")
+    @PreAuthorize("@ss.hasPermi('system:productBug:query')")
     @GetMapping(value = "/{bugId}")
     public AjaxResult getInfo(@PathVariable("bugId") Long bugId)
     {
-        return success(bugService.selectBugByBugId(bugId));
+        return success(productBugService.selectproductBugByBugId(bugId));
     }
 
     /**
-     * 新增bug列表
+     * 新增产品bug列表
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:add')")
-    @Log(title = "bug列表", businessType = BusinessType.INSERT)
+    @PreAuthorize("@ss.hasPermi('system:productBug:add')")
+    @Log(title = "产品bug列表", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody Bug bug)
+    public AjaxResult add(@RequestBody productBug productBug)
     {
-        return toAjax(bugService.insertBug(bug));
+        return toAjax(productBugService.insertproductBug(productBug));
     }
 
     /**
-     * 修改bug列表
+     * 修改产品bug列表
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:edit')")
-    @Log(title = "bug列表", businessType = BusinessType.UPDATE)
+    @PreAuthorize("@ss.hasPermi('system:productBug:edit')")
+    @Log(title = "产品bug列表", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody Bug bug)
+    public AjaxResult edit(@RequestBody productBug productBug)
     {
-        return toAjax(bugService.updateBug(bug));
+        return toAjax(productBugService.updateproductBug(productBug));
     }
 
     /**
-     * 删除bug列表
+     * 删除产品bug列表
      */
-    @PreAuthorize("@ss.hasPermi('system:bug:remove')")
-    @Log(title = "bug列表", businessType = BusinessType.DELETE)
+    @PreAuthorize("@ss.hasPermi('system:productBug:remove')")
+    @Log(title = "产品bug列表", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{bugIds}")
     public AjaxResult remove(@PathVariable Long[] bugIds)
     {
-        return toAjax(bugService.deleteBugByBugIds(bugIds));
+        return toAjax(productBugService.deleteproductBugByBugIds(bugIds));
     }
 }

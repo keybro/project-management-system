@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.productBugMapper">
+    
+    <resultMap type="productBug" id="productBugResult">
+        <result property="bugId"    column="bug_id"    />
+        <result property="productId"    column="product_id"    />
+        <result property="itemId"    column="item_id"    />
+        <result property="executeId"    column="execute_id"    />
+        <result property="designateId"    column="designate_id"    />
+        <result property="bugType"    column="bug_type"    />
+        <result property="bugTitle"    column="bug_title"    />
+        <result property="priority"    column="priority"    />
+        <result property="reStep"    column="re_step"    />
+        <result property="relateNeedId"    column="relate_need_id"    />
+        <result property="relateTaskId"    column="relate_task_id"    />
+        <result property="result"    column="result"    />
+        <result property="createrId"    column="creater_id"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectproductBugVo">
+        select bug_id, product_id, item_id, execute_id, designate_id, bug_type, bug_title, priority, re_step, relate_need_id, relate_task_id, result, creater_id, status from bug
+    </sql>
+
+    <select id="selectproductBugList" parameterType="productBug" resultMap="productBugResult">
+        <include refid="selectproductBugVo"/>
+        <where>  
+            <if test="productId != null "> and product_id = #{productId}</if>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
+            <if test="executeId != null "> and execute_id = #{executeId}</if>
+            <if test="designateId != null "> and designate_id = #{designateId}</if>
+            <if test="bugType != null "> and bug_type = #{bugType}</if>
+            <if test="bugTitle != null  and bugTitle != ''"> and bug_title = #{bugTitle}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+            <if test="reStep != null  and reStep != ''"> and re_step = #{reStep}</if>
+            <if test="relateNeedId != null "> and relate_need_id = #{relateNeedId}</if>
+            <if test="relateTaskId != null "> and relate_task_id = #{relateTaskId}</if>
+            <if test="result != null "> and result = #{result}</if>
+        </where>
+    </select>
+    
+    <select id="selectproductBugByBugId" parameterType="Long" resultMap="productBugResult">
+        <include refid="selectproductBugVo"/>
+        where bug_id = #{bugId}
+    </select>
+        
+    <insert id="insertproductBug" parameterType="productBug" useGeneratedKeys="true" keyProperty="bugId">
+        insert into bug
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="productId != null">product_id,</if>
+            <if test="itemId != null">item_id,</if>
+            <if test="executeId != null">execute_id,</if>
+            <if test="designateId != null">designate_id,</if>
+            <if test="bugType != null">bug_type,</if>
+            <if test="bugTitle != null">bug_title,</if>
+            <if test="priority != null">priority,</if>
+            <if test="reStep != null">re_step,</if>
+            <if test="relateNeedId != null">relate_need_id,</if>
+            <if test="relateTaskId != null">relate_task_id,</if>
+            <if test="result != null">result,</if>
+            <if test="createrId != null">creater_id,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="productId != null">#{productId},</if>
+            <if test="itemId != null">#{itemId},</if>
+            <if test="executeId != null">#{executeId},</if>
+            <if test="designateId != null">#{designateId},</if>
+            <if test="bugType != null">#{bugType},</if>
+            <if test="bugTitle != null">#{bugTitle},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="reStep != null">#{reStep},</if>
+            <if test="relateNeedId != null">#{relateNeedId},</if>
+            <if test="relateTaskId != null">#{relateTaskId},</if>
+            <if test="result != null">#{result},</if>
+            <if test="createrId != null">#{createrId},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateproductBug" parameterType="productBug">
+        update bug
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="productId != null">product_id = #{productId},</if>
+            <if test="itemId != null">item_id = #{itemId},</if>
+            <if test="executeId != null">execute_id = #{executeId},</if>
+            <if test="designateId != null">designate_id = #{designateId},</if>
+            <if test="bugType != null">bug_type = #{bugType},</if>
+            <if test="bugTitle != null">bug_title = #{bugTitle},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="reStep != null">re_step = #{reStep},</if>
+            <if test="relateNeedId != null">relate_need_id = #{relateNeedId},</if>
+            <if test="relateTaskId != null">relate_task_id = #{relateTaskId},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="createrId != null">creater_id = #{createrId},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where bug_id = #{bugId}
+    </update>
+
+    <delete id="deleteproductBugByBugId" parameterType="Long">
+        delete from bug where bug_id = #{bugId}
+    </delete>
+
+    <delete id="deleteproductBugByBugIds" parameterType="String">
+        delete from bug where bug_id in 
+        <foreach item="bugId" collection="array" open="(" separator="," close=")">
+            #{bugId}
+        </foreach>
+    </delete>
+</mapper>

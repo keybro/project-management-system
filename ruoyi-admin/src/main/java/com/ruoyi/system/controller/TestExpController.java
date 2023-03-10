@@ -2,6 +2,9 @@ package com.ruoyi.system.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.system.service.IProductRequirementService;
+import com.ruoyi.system.service.IProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +37,12 @@ public class TestExpController extends BaseController
     @Autowired
     private ITestExpService testExpService;
 
+    @Autowired
+    private IProductService productService;
+
+    @Autowired
+    IProductRequirementService requirementService;
+
     /**
      * 查询测试列表列表
      */
@@ -43,6 +52,11 @@ public class TestExpController extends BaseController
     {
         startPage();
         List<TestExp> list = testExpService.selectTestExpList(testExp);
+        for (TestExp temp :
+                list) {
+            temp.setProductName(productService.selectProductByProductId(temp.getProductId()).getProductName());
+            temp.setRequireName(requirementService.selectProductRequirementByProductRequirementId(temp.getRelateRequirementId()).getRequirementName());
+        }
         return getDataTable(list);
     }
 

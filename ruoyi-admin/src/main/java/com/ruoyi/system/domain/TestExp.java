@@ -46,7 +46,27 @@ public class TestExp extends BaseEntity
     @Excel(name = "优先级")
     private Long priority;
 
-    public void setTestId(Long testId) 
+    private String productName;
+
+    private String requireName;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getRequireName() {
+        return requireName;
+    }
+
+    public void setRequireName(String requireName) {
+        this.requireName = requireName;
+    }
+
+    public void setTestId(Long testId)
     {
         this.testId = testId;
     }

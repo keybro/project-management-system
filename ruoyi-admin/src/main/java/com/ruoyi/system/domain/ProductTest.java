@@ -6,12 +6,12 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 产品列表对象 product
+ * 产品测试对象 product
  * 
  * @author lrj
- * @date 2023-03-08
+ * @date 2023-03-10
  */
-public class Product extends BaseEntity
+public class ProductTest extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,7 @@ public class Product extends BaseEntity
     @Excel(name = "测试负责人id")
     private Long testPrincipalId;
 
-    /** 描述 */
+    /** 描述与 */
     private String description;
 
     /** 产品负责人姓名 */
@@ -45,34 +45,15 @@ public class Product extends BaseEntity
     /** 产品测试人姓名 */
     private String testPrincipalName;
 
-    private int productBugNumber;
+    private String itemSetName;
 
-    private int productPlanNumber;
 
-    private double productRequireFinishRate;
-
-    public int getProductBugNumber() {
-        return productBugNumber;
+    public String getItemSetName() {
+        return itemSetName;
     }
 
-    public void setProductBugNumber(int productBugNumber) {
-        this.productBugNumber = productBugNumber;
-    }
-
-    public int getProductPlanNumber() {
-        return productPlanNumber;
-    }
-
-    public void setProductPlanNumber(int productPlanNumber) {
-        this.productPlanNumber = productPlanNumber;
-    }
-
-    public double getProductRequireFinishRate() {
-        return productRequireFinishRate;
-    }
-
-    public void setProductRequireFinishRate(double productRequireFinishRate) {
-        this.productRequireFinishRate = productRequireFinishRate;
+    public void setItemSetName(String itemSetName) {
+        this.itemSetName = itemSetName;
     }
 
     public String getProductPrincipalName() {
