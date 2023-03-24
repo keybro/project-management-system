@@ -28,7 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectItemList" parameterType="Item" resultMap="ItemResult">
         <include refid="selectItemVo"/>
-        <where>  
+        <where>
+            <if test="itemId != null "> and item_id = #{itemId}</if>
             <if test="itemSetId != null "> and item_set_id = #{itemSetId}</if>
             <if test="itemName != null  and itemName != ''"> and item_name like concat('%', #{itemName}, '%')</if>
             <if test="itemCode != null  and itemCode != ''"> and item_code = #{itemCode}</if>

@@ -28,7 +28,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectExecuteList" parameterType="Execute" resultMap="ExecuteResult">
         <include refid="selectExecuteVo"/>
-        <where>  
+        <where>
+            <if test="executeId != null "> and execute_id = #{executeId}</if>
             <if test="itemId != null "> and item_id = #{itemId}</if>
             <if test="executeName != null  and executeName != ''"> and execute_name like concat('%', #{executeName}, '%')</if>
             <if test="executeCode != null  and executeCode != ''"> and execute_code = #{executeCode}</if>
@@ -77,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="executeType != null">#{executeType},</if>
             <if test="relatedProductId != null">#{relatedProductId},</if>
             <if test="relatedPlanId != null">#{relatedPlanId},</if>
-<!--            <if test="relateRequireId != null">#{relateRequireId},</if>-->
+            <if test="relateRequireId != null">#{relateRequireId},</if>
             <if test="productPrincipalId != null">#{productPrincipalId},</if>
             <if test="testPrincipalId != null">#{testPrincipalId},</if>
             <if test="iterationPrincipalId != null">#{iterationPrincipalId},</if>

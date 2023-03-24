@@ -70,8 +70,8 @@ public class ProductController extends BaseController
             productPlan.setProductId(temp.getProductId());
             temp.setProductPlanNumber(productPlanService.selectProductPlanList(productPlan).size());
             //完成率=完成的任务/总任务数
-            int AllTask = 0;
-            int AllFinishTask = 0;
+            double AllTask = 0;
+            double AllFinishTask = 0;
             Execute execute = new Execute();
             execute.setRelatedProductId(temp.getProductId());
             List<Execute> executes = executeService.selectExecuteList(execute);
@@ -84,14 +84,19 @@ public class ProductController extends BaseController
                         tasks) {
                     if (taskTemp.getTaskState() == 2) {
                         AllFinishTask +=1;
-                    }else {
-                        AllTask+=1;
                     }
+                    AllTask+=1;
+
                     }
             }
-            System.out.println(AllTask);
-            System.out.println(AllFinishTask);
-            temp.setProductRequireFinishRate(AllFinishTask/AllTask);
+//            System.out.println("来到了这里");
+//            System.out.println(AllTask);
+//            System.out.println(AllFinishTask);
+            if (AllTask!=0){
+//                System.out.println("执行方法");
+//                System.out.println(AllFinishTask/AllTask);
+                temp.setProductRequireFinishRate((AllFinishTask/AllTask)*100);
+            }
         }
         return getDataTable(list);
     }
